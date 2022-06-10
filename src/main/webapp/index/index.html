@@ -1,0 +1,58 @@
+#@layout()
+#define main()
+	<div class="container">
+            <label class="lable-title">下载rtmp</label>
+            <div class="form">
+                <div class="query-item">
+                    <div><input type="text" id="rtmpUrl" name="rtmpUrl" placeholder="请输入rtmp地址" size="80"></div>
+                    <div><input type="text" id="url1" value="rtmp://b1.jinduotou.com/live/" name="url1" placeholder="请输入前地址" size="80"></div>
+                    <div><input type="text" id="url2" value="rtmp://pull.guandaoshigong.com/live/" name="url2" placeholder="请输入前地址" size="80"></div>
+                    <div><input type="text" id="url" name="url" placeholder="请输入后地址" size="80"></div>
+                    <div>
+                    第一种：<input type="radio" name="type" value="1" />
+                    第二种：<input type="radio" name="type" value="2" />
+                    </div>
+                    <div><label><input type="checkbox" name="thtml" value="1" checked="checked" />转为html</label><label><input type="checkbox" name="xnm" value="1" checked="checked" />破解小奶猫</label></div>
+                </div>
+                <br/>
+                <button class="query-btn" onclick="downloadRtmp()">下载</button>
+                <button class="query-btn" onclick="clearInput()">清空</button>
+            </div>
+</div>
+<script>
+
+function downloadRtmp() {
+	var rtmpUrl = $("#rtmpUrl").val();
+	var url1 = $("#url1").val();
+	var url2 = $("#url2").val();
+	var type = $("input[name='type']:checked").val();
+	var thtmlAay = [];
+	var xnmAay = [];
+	$("input[name='thtml']:checked").each(function() {
+		thtmlAay.push($(this).val());
+	});
+	$("input[name='xnm']:checked").each(function() {
+		xnmAay.push($(this).val());
+	});
+	var url = $("#url").val();
+	var tt = thtmlAay.join(",");
+	var xx = xnmAay.join(",");
+
+	$.ajax({
+        type: "GET",
+        url: "/downloadRtmp",
+        data: {rtmpUrl:rtmpUrl,url1:url1,url2:url2,type:type,url:url,thtml:tt,xnm:xx},
+        dataType: "json",
+        success: function(data){
+            alert(data.msg);
+        }
+    });
+}
+
+function clearInput() {
+    $("#rtmpUrl").val('');
+    $("#url").val('');
+}
+
+</script>
+#end
